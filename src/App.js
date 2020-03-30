@@ -1,17 +1,35 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 import './App.css';
 import ReactJWPlayer from 'react-jw-player';
 
-export class CustomJwPlayer extends Component{
+
+class CustomJwPlayer extends Component{
+
+    state = {
+        articles : []
+    };
+
+    componentDidMount() {
+        axios.get('http://127.0.0.1:8000/api/')
+            .then(res => {
+                this.setState({
+                    articles: res.data
+                });
+                console.log(res.data);
+            })
+    }
 
     render() {
+        const { articles } = this.state;
         return (
             <div className="full-height" >
+                {articles.map(article => (
                 <ReactJWPlayer
                     className="single-player"
-                    playerId='my-unique-id'
-                    playerScript='https://content.jwplatform.com/libraries/4hK3AT2X.js'
-                    file='https://streaming.cnnbrasil.com.br/cnndigital_mainOutput3.m3u8'
+                    playerId={article.playerId}
+                    playerScript= {article.playerScript}
+                    file= {article.file}
                     customProps={{
                         controls: false,
                         repeat: true,
@@ -23,6 +41,7 @@ export class CustomJwPlayer extends Component{
                         height: '100%',
                     }}
                 />
+                ))}
             </div>
         );
     }
