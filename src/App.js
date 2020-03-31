@@ -11,7 +11,7 @@ class CustomJwPlayer extends Component{
     };
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/')
+        axios.get('https://back-ana.qa.stormgroup.com.br/api/')
             .then(res => {
                 this.setState({
                     articles: res.data
